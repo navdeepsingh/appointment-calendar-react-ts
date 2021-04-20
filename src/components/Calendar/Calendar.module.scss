@@ -1,0 +1,97 @@
+@font-face {
+  font-family: 'Helvetica';
+  src: local('Helvetica'), url(../../fonts/Helvetica.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'HelveticaBold';
+  src: local('HelveticaBold'), url(../../fonts/HelveticaBold.ttf) format('truetype');
+}
+
+
+.calendar {
+  font-family: Helvetica;
+  height: calc(100% - 55px);
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 30px 50px;
+
+  .week {
+    flex: 1;
+  }
+  .day {
+    position: relative;
+    font-family: HelveticaBold;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1 1;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .dayText {
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .differentMonth {
+    color: #CCCDD0;
+  }
+  .today {
+    .dayText {
+      background-color: #ECEDF1;
+      border-radius: 50%;
+      padding: 9px 10px;
+    }
+  }
+
+  .calendarRow {
+    display: flex;
+    width: 100%;
+  }
+  .calendarHeader {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    .monthDisplay {
+      justify-content: center;
+      align-items: center;
+      height: 80px;
+      .monthLabel {
+        font-family: inherit;
+        text-align: center;
+        flex: 1;
+        font-size: 21px;
+      }
+      .arrow {
+        cursor: pointer;
+      }
+    }
+    .dayNames {
+      cursor: default;
+      font-size: 13px;
+      .day {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1 1;
+        height: 20px;
+        transition: all 0.2s;
+        color: #CCCDD0;
+        border-bottom: solid 1px #CCCDD0;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+.eventDot {
+  position: absolute;
+  background-color: #D51236;
+  height: 6px;
+  width: 6px;
+  top: 6px;
+  right: 11px;
+  border-radius: 50%;
+}
