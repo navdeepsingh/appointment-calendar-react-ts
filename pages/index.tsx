@@ -14,14 +14,8 @@ const Home = () => (
       </div>
     </main>
 
-    <footer>
-      <a
-        href="https://zeit.co?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Developed by <a href="https://navdeepsingh.in"> Navdeep Singh </a>
-      </a>
+    <footer>      
+        Developed by Navdeep Singh
     </footer>
 
     <style>{`

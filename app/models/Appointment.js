@@ -8,6 +8,10 @@ const Appointment = new Schema(
       type: String,
       required: true,
     },
+    description: {
+      type: String,
+      required: false
+    },
     date: {
       type: Date,
       min: moment().format("YYYY-MM-DD"),

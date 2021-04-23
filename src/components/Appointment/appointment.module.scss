@@ -1,0 +1,80 @@
+.appointment {
+  flex: 1;
+  width: 92%;
+  margin: 5px auto;
+  padding: 5px 0;
+  display: flex;
+  align-items: baseline;
+  position: relative;
+
+  .appointmentText {
+    font-size: 13px;
+    font-weight: 600;
+  }
+}
+
+.faded {
+  opacity: 0.4;
+}
+
+.popoverContainer {
+  width: 400px;
+  max-height: 500px;
+  background-color: #fff;
+  padding: 20px 20px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 24px -5px rgba(91,93,96,0.76);
+  -moz-box-shadow: 0px 0px 24px -5px rgba(91,93,96,0.76);
+  box-shadow: 0px 0px 24px -5px rgba(91,93,96,0.76);
+
+  .popoverSubcontainer {
+    color: #5b5d60;
+    width: 100%;
+    height: 100%;
+    
+    .appointmentText {
+      flex: 1;
+      font-size: 24px;
+      width: 74px;
+      font-weight: 600;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+    }
+
+    .popoverClose {
+      cursor: pointer;
+    }
+
+    .popoverHeading {
+      display: flex;
+      align-items: baseline;
+      border: none;
+      background-color: #fff;
+    }    
+
+    .popoverContent {
+      font-size: 14px;
+      margin: 10px 0 5px;
+    }
+
+    .popoverActions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      .popoverApply {
+        cursor: pointer;
+        border: solid 2px #1297df;
+        padding: 6px 15px;
+        color: #1297df;
+        border-radius: 4px;
+        margin-left: 5px;
+      
+        &:hover {
+          background-color: #1297df;
+          color: #fff;
+        }
+      }
+    }
+  }
+}

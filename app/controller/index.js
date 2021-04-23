@@ -6,10 +6,10 @@ const getApiStatus = (req, res, next) => {
 
 const getAppointments = (req, res, next) => {
   Appointment.find({}).then((appointments) => {
-    if (appointments != null) {
-      res.status(200).send(JSON.stringify(appointments));
+    if (appointments !== null) {
+      res.status(200).send(appointments);
     } else {
-      res.status(401).send("No Appointment exists");
+      res.status(401).send({ message: "No Appointment exists" });
     }
   });
 };
@@ -17,6 +17,7 @@ const getAppointments = (req, res, next) => {
 const addAppointment = (req, res, next) => {
   const data = {
     title: req.body.title,
+    description: req.body.description,
     date: req.body.date,
   };
   Appointment.findOne({ date: data.date }).then((appointment) => {

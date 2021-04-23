@@ -1,17 +1,33 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import moment from "moment";
 import CalendarDayNames from "./CalendarDayNames";
 import CalendarWeek from "./CalendarWeek";
+import Chevron from '@components/Icons/Chevron'
+import { IAppointment } from "@src/types/Appointment";
+import {fetchPromise} from "@src/utility"
+import { v1 as uuidv1 } from 'uuid';
 import css from "./Calendar.module.scss"
 
 const Calendar = () => {
-
+  const url = process.env.API_URL + 'appointments';
   const [state, setState] = useState({
     month: moment(),
     selected: moment().startOf("day"),
   })
+  const [appointments, setAppointments] = useState<IAppointment[]>([])
 
-  const previous =  () => {
+  useEffect(() => {
+    // Fetch Appointments on Calendar Load
+    fetchPromise(url)
+    .then(appointments => {
+      setAppointments(appointments)
+    }, 
+    error => {
+      console.log(error)
+    });
+  }, [])
+
+  const onPrevious =  () => {
     const { month } = state;
     setState({
       ...state,
@@ -19,7 +35,7 @@ const Calendar = () => {
     })
   }
   
-  const next =  () => {
+  const onNext =  () => {
     const { month } = state;
     setState({
       ...state,
@@ -42,10 +58,11 @@ const Calendar = () => {
     while (!done) {
       weeks.push(
         <CalendarWeek
-          key={Math.random()}
+          key={uuidv1()}
           date={date.clone()}
           month={month}
           selected={selected}
+          appointments={appointments}
         />
       );
 
@@ -60,16 +77,20 @@ const Calendar = () => {
 
   const renderMonthLabel= () => {
     const { month } = state;
-    return <span className="month-label">{month.format("MMMM YYYY")}</span>;
+    return <span className={css.monthLabel}>{month.format("MMMM YYYY")}</span>;
   }
 
   return (
     <div className={css.calendar}>
       <header className={css.calendarHeader}>
         <div className={[css.monthDisplay, css.calendarRow].join(' ')}>
-          <button onClick={previous}>Previous</button>            
+          <button onClick={onPrevious}>
+            <Chevron />
+          </button>            
           {renderMonthLabel()}
-          <button onClick={next}>Next</button>
+          <button onClick={onNext}>
+            <Chevron direction="right" />
+          </button>
         </div>
         <CalendarDayNames />
       </header>

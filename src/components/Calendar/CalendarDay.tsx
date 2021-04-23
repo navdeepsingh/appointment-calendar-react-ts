@@ -1,9 +1,12 @@
-import React from "react";
+import React, {useEffect} from "react";
 import css from "./Calendar.module.scss"
+import Appointment from "@src/components/Appointment";
 
-const CalendarDay = ({day: { date, isCurrentMonth, isToday, number }}) => {
+const CalendarDay = ({day: { date, isCurrentMonth, isToday, number }, appointments}) => {
 
-  let eventsForDay;
+  const appointmentForDay = appointments.find(({date: appointmentDate}) => {
+    return appointmentDate.substring(0, appointmentDate.indexOf('T')) === date.format("YYYY-MM-DD")
+  })
 
   return (
     <span
@@ -13,8 +16,13 @@ const CalendarDay = ({day: { date, isCurrentMonth, isToday, number }}) => {
         (isCurrentMonth ? "" : ` ${css.differentMonth}`)
       }
     >
-      <span className={css.dayText}>{number}</span>
-      {eventsForDay !== undefined ?  eventsForDay.length >= 1 ? <span className={css.eventDot} />: "" : ""}
+      <Appointment
+        appointmentForDay={appointmentForDay}
+        date={date}
+      >
+        <span className={css.dayText}>{number}</span>
+      </Appointment>
+      {appointmentForDay ? <span className={css.eventDot} />: ""}
     </span>
   );
 }
