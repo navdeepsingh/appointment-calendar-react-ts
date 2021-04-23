@@ -10,8 +10,8 @@ const Appointment = ({children, appointmentForDay, date}) => {
   const url = process.env.API_URL + 'appointment';
   const [isPopoverOpen, setPopoverOpen] = useState(false)
   const [isEditMode, setEditMode] = useState(false)
-  //const [appointmentInfo, setAppointmentInfo] = useState(false)
   const [appointment, setAppointment] = useState<IAppointment | undefined>(appointmentForDay)
+
   const titleRef = React.useRef<HTMLInputElement>(null);
   const descriptionRef = React.useRef<HTMLInputElement>(null);
 
@@ -49,17 +49,27 @@ const Appointment = ({children, appointmentForDay, date}) => {
   }
 
   const handleCancelAppointment = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     setAppointment({
       ...appointment,
-      title: appointmentForDay.title,
-      description: appointmentForDay.description,
+      title: appointmentForDay?.title,
+      description: appointmentForDay?.description,
     });
     setPopoverOpen(false)
     setEditMode(false)
   }
 
   const handleUpdateAppointment = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
 
+    setAppointment({
+      ...appointment,
+      title: appointment.title,
+      description: appointment.description,
+    });
   }
   
 
@@ -149,7 +159,7 @@ const Appointment = ({children, appointmentForDay, date}) => {
           </div>          
         </div>
         <div className={css.popoverActions}>
-          <button className={css.popoverCancel}>CANCEL</button>
+          <button className={css.popoverCancel} onClick={handleCancelAppointment}>CANCEL</button>
           <button className={css.popoverEdit} onClick={handleNewAppointment}>SUBMIT</button>
         </div>
       </div>

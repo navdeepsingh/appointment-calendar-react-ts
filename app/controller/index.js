@@ -39,7 +39,19 @@ const addAppointment = (req, res, next) => {
 };
 
 const updateAppointment = (req, res, next) => {
-  return res.status(200).send(JSON.stringify({ id: 1, title: "Appoint 1" }));
+  const dataToBeUpdated = {
+    title: req.body.title,
+    description: req.body.description,
+  };
+  Appointment.findOneAndUpdate({ _id: req.body._id }, dataToBeUpdated, {
+    new: true,
+  }).then((appointment) => {
+    if (appointment != null) {
+      res.status(200).send(appointment);
+    } else {
+      res.status(401).send("Appointment not found");
+    }
+  });
 };
 
 const deleteAppointment = (req, res, next) => {
