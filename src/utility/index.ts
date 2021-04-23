@@ -1,9 +1,10 @@
-function fetchPromise(url: string) {
+function fetchPromise(url: string, options = {}) {
   return window
     .fetch(url, {
       headers: {
         "Content-Type": "application/json",
       },
+      ...options,
     })
     .then(async (results) => {
       const data = await results.json();
