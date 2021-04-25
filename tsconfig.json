@@ -34,5 +34,5 @@
     "next-env.d.ts",
     "./**/*.ts",
     "./**/*.tsx"
-  ]
+, "lib/with-redux-store.js"  ]
 }

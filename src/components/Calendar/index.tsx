@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import { useDispatch } from 'react-redux'
 import moment from "moment";
 import CalendarDayNames from "./CalendarDayNames";
 import CalendarWeek from "./CalendarWeek";
@@ -7,25 +8,29 @@ import { IAppointment } from "@src/types/Appointment";
 import {fetchPromise} from "@src/utility"
 import { v1 as uuidv1 } from 'uuid';
 import css from "./Calendar.module.scss"
+import useFetchAppointments from "../../hooks/useFetchAppointments";
+import {setAppointments} from '@src/redux/actions'
 
 const Calendar = () => {
+  const dispatch = useDispatch();
   const url = process.env.API_URL + 'appointments';
-  const [state, setState] = useState({
-    month: moment(),
-    selected: moment().startOf("day"),
-  })
-  const [appointments, setAppointments] = useState<IAppointment[]>([])
 
-  useEffect(() => {
-    // Fetch Appointments on Calendar Load
+  useEffect(() => {   
+    // fetch new data
     fetchPromise(url)
-    .then(appointments => {
-      setAppointments(appointments)
+    .then(newData => {
+      dispatch(setAppointments(newData))
     }, 
     error => {
       console.log(error)
     });
-  }, [])
+  }, []);
+  
+
+  const [state, setState] = useState({
+    month: moment(),
+    selected: moment().startOf("day"),
+  })  
 
   const onPrevious =  () => {
     const { month } = state;
@@ -62,7 +67,6 @@ const Calendar = () => {
           date={date.clone()}
           month={month}
           selected={selected}
-          appointments={appointments}
         />
       );
 
@@ -77,11 +81,11 @@ const Calendar = () => {
 
   const renderMonthLabel= () => {
     const { month } = state;
-    return <span className={css.monthLabel}>{month.format("MMMM YYYY")}</span>;
+    return <span className={css.monthLabel} data-testid="monthName">{month.format("MMMM YYYY")}</span>;
   }
 
   return (
-    <div className={css.calendar}>
+    <div data-testid="calendar" className={css.calendar}>
       <header className={css.calendarHeader}>
         <div className={[css.monthDisplay, css.calendarRow].join(' ')}>
           <button onClick={onPrevious}>

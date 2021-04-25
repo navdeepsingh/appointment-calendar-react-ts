@@ -1,16 +1,33 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux'
 import Popover from 'react-popover'
 import classNames from "classnames"
 import { IAppointment } from "@src/types/Appointment";
 
 import css from "./Appointment.module.scss"
 import { fetchPromise } from "@src/utility";
+import {getAppointments, setAppointments} from '@src/redux/actions'
 
-const Appointment = ({children, appointmentForDay, date}) => {
+const Appointment = ({children, date}) => {
   const url = process.env.API_URL + 'appointment';
+  const dispatch = useDispatch();
+  
   const [isPopoverOpen, setPopoverOpen] = useState(false)
   const [isEditMode, setEditMode] = useState(false)
-  const [appointment, setAppointment] = useState<IAppointment | undefined>(appointmentForDay)
+  const [appointment, setAppointment] = useState<IAppointment | undefined>(undefined)
+
+  let appointments = useSelector(getAppointments)
+
+  useEffect(() => {
+    if (appointments.length) {
+      const appointmentForDay = appointments.find(({date: appointmentDate}) => {
+        return appointmentDate.substring(0, appointmentDate.indexOf('T')) === date.format("YYYY-MM-DD")
+      })
+      console.log(appointmentForDay)
+      setAppointment(appointmentForDay)
+    }
+  },[appointments])
+
 
   const titleRef = React.useRef<HTMLInputElement>(null);
   const descriptionRef = React.useRef<HTMLInputElement>(null);
@@ -33,7 +50,11 @@ const Appointment = ({children, appointmentForDay, date}) => {
   const handleNewAppointment = (e: React.MouseEvent) => {
     e.preventDefault();
 
-    const data = { title: titleRef.current.value, description: descriptionRef.current.value,}
+    const data = { 
+      title: titleRef.current.value, 
+      description: descriptionRef.current.value,
+      date: date.format("YYYY-MM-DD")
+    }
     console.log(data)
 
     fetchPromise(url, {
@@ -41,7 +62,8 @@ const Appointment = ({children, appointmentForDay, date}) => {
       body: JSON.stringify(data)
     })
     .then(appointment => {
-      console.log(appointment)
+      dispatch(setAppointments(appointment))
+      setPopoverOpen(false)
     }, 
     error => {
       console.log(error)
@@ -54,8 +76,8 @@ const Appointment = ({children, appointmentForDay, date}) => {
 
     setAppointment({
       ...appointment,
-      title: appointmentForDay?.title,
-      description: appointmentForDay?.description,
+      title: appointment?.title,
+      description: appointment?.description,
     });
     setPopoverOpen(false)
     setEditMode(false)
@@ -94,7 +116,7 @@ const Appointment = ({children, appointmentForDay, date}) => {
   }
 
   const renderPopover = () => {
-    return appointmentForDay
+    return appointment
     ? ( 
       <div className={css.popoverContainer}>
         <div className={css.popoverSubcontainer}>
@@ -115,7 +137,7 @@ const Appointment = ({children, appointmentForDay, date}) => {
                   <textarea name="description" id="description" value={appointment.description} onChange={handleDescriptionChange} />
                 </div>
               </>)
-              : appointmentForDay.description
+              : appointment.description
             }
           </div>
           <div className={css.popoverActions}>
@@ -177,6 +199,7 @@ const Appointment = ({children, appointmentForDay, date}) => {
     >
       <span onClick={onOpenPopover}>
         {children}
+        {appointment !== undefined ? <span className={css.apppointmentDot}></span>: ''}
       </span>
     </Popover>
   );
