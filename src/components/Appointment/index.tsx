@@ -159,7 +159,7 @@ const Appointment = ({children, date}) => {
     })
   }
   
-  const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setAppointment({
       ...appointment,
       description: e.target.value,
