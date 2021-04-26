@@ -57,8 +57,7 @@ const Calendar = () => {
     let done = false;
     let date = month
       .clone()
-      .startOf("month")
-      .add("w" - 1)
+      .startOf("month")      
       .day("Sunday");
     let count = 0;
     let monthIndex = date.month();    

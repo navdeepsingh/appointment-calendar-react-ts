@@ -25,7 +25,6 @@ const Appointment = ({children, date}) => {
       const appointmentForDay = appointments.find(({date: appointmentDate}) => {
         return appointmentDate.substring(0, appointmentDate.indexOf('T')) === date.format("YYYY-MM-DD")
       })
-      console.log(appointmentForDay)
       setAppointment(appointmentForDay)
     }
   },[appointments])
