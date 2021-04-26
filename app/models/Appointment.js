@@ -10,7 +10,7 @@ const Appointment = new Schema(
     },
     description: {
       type: String,
-      required: false
+      required: false,
     },
     date: {
       type: Date,
@@ -18,6 +18,7 @@ const Appointment = new Schema(
       default: moment().format("YYYY-MM-DD"),
       required: true,
       select: true,
+      unique: true,
     },
   },
   {

@@ -1,5 +1,6 @@
 import React from "react";
 import CalendarDay from "./CalendarDay";
+import cs from "classnames"
 import css from "./Calendar.module.scss"
 import { v1 as uuidv1 } from 'uuid';
 
@@ -28,7 +29,7 @@ const CalendarWeek = ({date, month, selected, select}) => {
   }
 
   return (
-    <div className={[css.calendarRow, css.week].join(' ')} key={Math.random()}>
+    <div className={cs(css.calendarRow, css.week)} key={uuidv1()}>
       {days}
     </div>
   );

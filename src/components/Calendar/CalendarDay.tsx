@@ -1,12 +1,8 @@
-import React, {useEffect} from "react";
-import { useSelector } from 'react-redux'
+import React from "react";
 import Appointment from "@src/components/Appointment";
-import { getAppointments } from "@src/redux/actions"
 import css from "./Calendar.module.scss"
 
 const CalendarDay = ({day: { date, isCurrentMonth, isToday, number }}) => {
-
-  
 
   return (
     <span

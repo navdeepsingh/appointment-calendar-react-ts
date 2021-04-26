@@ -1,15 +1,14 @@
 import React, {useState, useEffect} from "react";
 import { useDispatch } from 'react-redux'
+import { toast } from 'react-toastify';
 import moment from "moment";
 import CalendarDayNames from "./CalendarDayNames";
 import CalendarWeek from "./CalendarWeek";
 import Chevron from '@components/Icons/Chevron'
-import { IAppointment } from "@src/types/Appointment";
 import {fetchPromise} from "@src/utility"
 import { v1 as uuidv1 } from 'uuid';
-import css from "./Calendar.module.scss"
-import useFetchAppointments from "../../hooks/useFetchAppointments";
 import {setAppointments} from '@src/redux/actions'
+import css from "./Calendar.module.scss"
 
 const Calendar = () => {
   const dispatch = useDispatch();
@@ -19,10 +18,14 @@ const Calendar = () => {
     // fetch new data
     fetchPromise(url)
     .then(newData => {
+      console.log(newData);
       dispatch(setAppointments(newData))
+      const message = newData.length ? `${newData.length} Appointment(s) Loaded`: `No appointments yet. Make a new one by clicking on date.`
+      toast.success(message)      
     }, 
     error => {
       console.log(error)
+      toast.warn('Error in loading appointments!');
     });
   }, []);
   

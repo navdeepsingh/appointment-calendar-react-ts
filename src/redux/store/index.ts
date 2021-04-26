@@ -11,16 +11,22 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "SET_APPOINTMENTS":
-      const newAppointment = action.payload;
-      const appointments = state.appointments.length
-        ? [...state.appointments, newAppointment]
-        : newAppointment;
+    case "SET_APPOINTMENTS": {
+      const appointments = action.payload || [];
       return {
         ...state,
         appointments,
       };
-    case "DELETE_APPOINTMENT":
+    }
+    case "ADD_APPOINTMENT": {
+      const newAppointment = action.payload;
+      const appointments = [...state.appointments, newAppointment];
+      return {
+        ...state,
+        appointments,
+      };
+    }
+    case "DELETE_APPOINTMENT": {
       const toBeDeleteAppointment = action.payload;
       const revisedAppointments = state.appointments.filter(
         (e) => e._id !== toBeDeleteAppointment._id
@@ -29,6 +35,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         appointments: revisedAppointments,
       };
+    }
     default:
       return state;
   }

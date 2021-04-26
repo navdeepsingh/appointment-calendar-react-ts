@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify';
 import Popover from 'react-popover'
-import classNames from "classnames"
+import cs from "classnames"
 import { IAppointment } from "@src/types/Appointment";
 
 import css from "./Appointment.module.scss"
 import { fetchPromise } from "@src/utility";
-import {deleteAppointment, getAppointments, setAppointments} from '@src/redux/actions'
+import {deleteAppointment, getAppointments, addAppointment} from '@src/redux/actions'
 
 const Appointment = ({children, date}) => {
   const url = process.env.API_URL + 'appointment';
   const dispatch = useDispatch();
   
+  const [status, setStatus] = useState({loading: false, error: null})
   const [isPopoverOpen, setPopoverOpen] = useState(false)
   const [isEditMode, setEditMode] = useState(false)
   const [appointment, setAppointment] = useState<IAppointment | undefined>(undefined)
@@ -19,7 +21,7 @@ const Appointment = ({children, date}) => {
   let appointments = useSelector(getAppointments)
 
   useEffect(() => {
-    if (appointments.length) {
+    if (appointments.length > 0) {
       const appointmentForDay = appointments.find(({date: appointmentDate}) => {
         return appointmentDate.substring(0, appointmentDate.indexOf('T')) === date.format("YYYY-MM-DD")
       })
@@ -49,6 +51,7 @@ const Appointment = ({children, date}) => {
 
   const handleNewAppointment = (e: React.MouseEvent) => {
     e.preventDefault();
+    setStatus({...status, loading: true})
 
     const data = { 
       title: titleRef.current.value, 
@@ -61,11 +64,17 @@ const Appointment = ({children, date}) => {
       body: JSON.stringify(data)
     })
     .then(appointment => {
-      dispatch(setAppointments(appointment))
+      console.log(appointment)
+      dispatch(addAppointment(appointment))
+      setAppointment(appointment)
       setPopoverOpen(false)
+      setStatus({...status, loading: false})
+      toast.success('New Appointment Added.')
     }, 
     error => {
       console.log(error)
+      setStatus({...status, loading: false})
+      toast.error(`Error: ${error.message}`)
     });
   }
 
@@ -73,11 +82,6 @@ const Appointment = ({children, date}) => {
     e.preventDefault();
     e.stopPropagation();
 
-    setAppointment({
-      ...appointment,
-      title: appointment?.title,
-      description: appointment?.description,
-    });
     setPopoverOpen(false)
     setEditMode(false)
   }
@@ -85,6 +89,7 @@ const Appointment = ({children, date}) => {
   const handleUpdateAppointment = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    setStatus({...status, loading: true})
 
     const data = { 
       _id: appointment._id,
@@ -98,22 +103,25 @@ const Appointment = ({children, date}) => {
       body: JSON.stringify(data)
     })
     .then(appointment => {
-      console.log(appointment)
       setAppointment({
         ...appointment,
         title: appointment?.title,
         description: appointment?.description,
       });
-      //dispatch(setAppointments(appointment))
       setPopoverOpen(false)
+      setStatus({...status, loading: false})
+      toast.success('Appointment updated.')
     }, 
     error => {
       console.log(error)
+      setStatus({...status, loading: false})
+      toast.error('Error in updating appointment.')
     });
   }
 
   const handleDeleteAppointment = (e: React.MouseEvent) => {
     e.preventDefault();
+    setStatus({...status, loading: true})
 
     const data = { 
       _id: appointment._id
@@ -123,12 +131,17 @@ const Appointment = ({children, date}) => {
       method: 'DELETE',
       body: JSON.stringify(data)
     })
-    .then(result => {
+    .then(() => {
       dispatch(deleteAppointment(appointment))
       setPopoverOpen(false)
+      setAppointment(undefined)
+      setStatus({...status, loading: false})
+      toast.success('Appointment deleted.')
     }, 
     error => {
       console.log(error)
+      setStatus({...status, loading: false})
+      toast.success('Error in deleting appointment.')
     });
   }
   
@@ -185,8 +198,7 @@ const Appointment = ({children, date}) => {
                <>
                 <button className={css.popoverCancel} onClick={handleCancelAppointment}>CANCEL</button>
                 <button className={css.popoverEdit} onClick={handleUpdateAppointment}>SUBMIT</button>
-              </>
-                           
+              </>                           
              )
              : (
               <>
@@ -220,7 +232,7 @@ const Appointment = ({children, date}) => {
         </div>
         <div className={css.popoverActions}>
           <button className={css.popoverCancel} onClick={handleCancelAppointment}>CANCEL</button>
-          <button className={css.popoverEdit} onClick={handleNewAppointment}>SUBMIT</button>
+          <button className={css.popoverEdit} onClick={handleNewAppointment} disabled={status.loading}>SUBMIT</button>
         </div>
       </div>
       </form>

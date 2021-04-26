@@ -1,10 +1,12 @@
 import Head from "next/head";
 import Calendar from "@src/components/Calendar";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.min.css';
 
 const Home = () => (
   <div className="container">
     <Head>
-      <title>Event Calendar</title>
+      <title>Appointment Calendar</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
@@ -17,6 +19,8 @@ const Home = () => (
     <footer>      
         Developed by Navdeep Singh
     </footer>
+
+    <ToastContainer />
 
     <style>{`
       .container {
