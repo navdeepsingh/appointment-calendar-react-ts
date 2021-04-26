@@ -5,13 +5,15 @@ const getApiStatus = (req, res, next) => {
 };
 
 const getAppointments = (req, res, next) => {
-  Appointment.find({}).then((appointments) => {
-    if (appointments !== null) {
-      res.status(200).send(appointments);
-    } else {
-      res.status(401).send({ message: "No Appointment exists" });
-    }
-  });
+  Appointment.find({})
+    .then((appointments) => {
+      if (appointments !== null) {
+        res.status(200).send(appointments);
+      } else {
+        res.status(401).send({ message: "No Appointment exists" });
+      }
+    })
+    .catch((err) => res.status(401).send({ message: err }));
 };
 
 const addAppointment = (req, res, next) => {
@@ -45,17 +47,30 @@ const updateAppointment = (req, res, next) => {
   };
   Appointment.findOneAndUpdate({ _id: req.body._id }, dataToBeUpdated, {
     new: true,
-  }).then((appointment) => {
-    if (appointment != null) {
-      res.status(200).send(appointment);
-    } else {
-      res.status(401).send("Appointment not found");
-    }
-  });
+  })
+    .then((appointment) => {
+      if (appointment != null) {
+        res.status(200).send(appointment);
+      } else {
+        res.status(401).send({ message: "Appointment not updated" });
+      }
+    })
+    .catch((err) =>
+      res.status(401).send({ message: `Update failed with error: ${err}` })
+    );
 };
 
 const deleteAppointment = (req, res, next) => {
-  return res.status(200).send(JSON.stringify({ id: 1, title: "Appoint 1" }));
+  const entityToBeDeleted = {
+    _id: req.body._id,
+  };
+  Appointment.deleteOne(entityToBeDeleted)
+    .then((result) =>
+      res.status(200).send({ message: `Deleted ${result.deletedCount} item` })
+    )
+    .catch((err) =>
+      res.status(401).send({ message: `Delete failed with error: ${err}` })
+    );
 };
 
 module.exports = {

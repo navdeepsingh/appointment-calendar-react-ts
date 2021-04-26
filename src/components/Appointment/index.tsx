@@ -6,7 +6,7 @@ import { IAppointment } from "@src/types/Appointment";
 
 import css from "./Appointment.module.scss"
 import { fetchPromise } from "@src/utility";
-import {getAppointments, setAppointments} from '@src/redux/actions'
+import {deleteAppointment, getAppointments, setAppointments} from '@src/redux/actions'
 
 const Appointment = ({children, date}) => {
   const url = process.env.API_URL + 'appointment';
@@ -55,7 +55,6 @@ const Appointment = ({children, date}) => {
       description: descriptionRef.current.value,
       date: date.format("YYYY-MM-DD")
     }
-    console.log(data)
 
     fetchPromise(url, {
       method: 'POST',
@@ -87,10 +86,49 @@ const Appointment = ({children, date}) => {
     e.preventDefault();
     e.stopPropagation();
 
-    setAppointment({
-      ...appointment,
-      title: appointment.title,
-      description: appointment.description,
+    const data = { 
+      _id: appointment._id,
+      title: appointment.title, 
+      description: appointment.description
+    }
+    console.log(data)
+
+    fetchPromise(url, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    })
+    .then(appointment => {
+      console.log(appointment)
+      setAppointment({
+        ...appointment,
+        title: appointment?.title,
+        description: appointment?.description,
+      });
+      //dispatch(setAppointments(appointment))
+      setPopoverOpen(false)
+    }, 
+    error => {
+      console.log(error)
+    });
+  }
+
+  const handleDeleteAppointment = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    const data = { 
+      _id: appointment._id
+    }
+
+    fetchPromise(url, {
+      method: 'DELETE',
+      body: JSON.stringify(data)
+    })
+    .then(result => {
+      dispatch(deleteAppointment(appointment))
+      setPopoverOpen(false)
+    }, 
+    error => {
+      console.log(error)
     });
   }
   
@@ -152,7 +190,7 @@ const Appointment = ({children, date}) => {
              )
              : (
               <>
-                <button className={css.popoverDelete}>Delete</button>
+                <button className={css.popoverDelete} onClick={handleDeleteAppointment}>Delete</button>
                 <button className={css.popoverEdit} onClick={handleEditModeClick}>Edit</button>
               </>  
              )
@@ -199,7 +237,7 @@ const Appointment = ({children, date}) => {
     >
       <span onClick={onOpenPopover}>
         {children}
-        {appointment !== undefined ? <span className={css.apppointmentDot}></span>: ''}
+        {appointment ? <span className={css.apppointmentDot}></span>: ''}
       </span>
     </Popover>
   );

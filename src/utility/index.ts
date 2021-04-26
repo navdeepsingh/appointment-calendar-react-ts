@@ -12,7 +12,7 @@ function fetchPromise(url: string, options = {}) {
         if (data) {
           return data;
         } else {
-          return Promise.reject(new Error(`No appointments found"`));
+          return Promise.reject(new Error(`Something wrong with Fetch API"`));
         }
       } else {
         // handle the error

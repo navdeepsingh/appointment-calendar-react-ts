@@ -46,10 +46,10 @@ app
     server.post("/api/appointment", addAppointment);
 
     // Edit existing appointment
-    server.post("/api/appointment/edit", updateAppointment);
+    server.put("/api/appointment", updateAppointment);
 
     // Delete existing appointment
-    server.post("/api/appointment/delete", deleteAppointment);
+    server.delete("/api/appointment", deleteAppointment);
 
     server.get("*", (req, res) => {
       return handle(req, res);
