@@ -69,7 +69,6 @@ const Calendar = () => {
           key={uuidv1()}
           date={date.clone()}
           month={month}
-          selected={selected}
         />
       );
 

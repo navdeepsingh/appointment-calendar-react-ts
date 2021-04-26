@@ -4,7 +4,7 @@ import cs from "classnames"
 import css from "./Calendar.module.scss"
 import { v1 as uuidv1 } from 'uuid';
 
-const CalendarWeek = ({date, month, selected, select}) => {
+const CalendarWeek = ({date, month}) => {
   let days = [];
 
   for (var i = 0; i < 7; i++) {
@@ -19,8 +19,6 @@ const CalendarWeek = ({date, month, selected, select}) => {
       <CalendarDay
         key={uuidv1()}
         day={day}
-        selected={selected}
-        select={select}
       />
     );
 
