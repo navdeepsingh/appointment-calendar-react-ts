@@ -32,7 +32,7 @@ const Appointment = ({children, date}) => {
 
 
   const titleRef = React.useRef<HTMLInputElement>(null);
-  const descriptionRef = React.useRef<HTMLInputElement>(null);
+  const descriptionRef = React.useRef<HTMLTextAreaElement>(null);
 
   const onOpenPopover = (e: React.MouseEvent) => {
     e.preventDefault();
