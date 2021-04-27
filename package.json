@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nodemon app/server.js",
-    "build": "next build",
+    "build": "node app/server.js",
     "start": "nodemon app/server.js",
     "test": "jest --no-cache --config jest/config.js"
   },
