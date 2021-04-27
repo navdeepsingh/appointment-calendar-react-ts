@@ -41,16 +41,26 @@
     .popoverInputRow {
       display: flex;
       padding: 0.3em 0;
+
+      .error {
+        color: tomato;
+      }
       
       label {
         flex-basis: 140px;
       }
-      input, textarea {
+
+      .popoverInput {
         flex-basis: 100%;
-        padding: 0.5em;
-      }
-      textarea {
-        min-height: 100px;
+        display: flex;
+        flex-direction: column;
+
+        input, textarea {
+          padding: 0.5em;
+        }
+        textarea {
+          min-height: 100px;
+        }
       }
     }
 

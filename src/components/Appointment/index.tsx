@@ -106,11 +106,13 @@ const Appointment = ({children, date}) => {
         description: appointment?.description,
       });
       setPopoverOpen(false)
+      setEditMode(false)
       setStatus({...status, loading: false})
       toast.success(TEXTS.APPOINTMENT_UPDATE_SUCCESS)
     }, 
     error => {
       console.log(error)
+      setEditMode(false)
       setStatus({...status, loading: false})
       toast.error(TEXTS.APPOINTMENT_UPDATE_ERROR)
     });
@@ -178,11 +180,16 @@ const Appointment = ({children, date}) => {
               (<>
                 <div className={css.popoverInputRow}>
                   <label htmlFor="title">Title:</label>
-                  <input type="text" name="title" id="title" value={appointment.title} onChange={handleTitleChange} />
+                  <div className={css.popoverInput}>
+                    <input type="text" name="title" id="title" value={appointment.title} onChange={handleTitleChange} />
+                    {!appointment.title.length ? <span className={css.error}>Please fill this field</span>: ''}                    
+                  </div>
                 </div>
                 <div className={css.popoverInputRow}>
                   <label htmlFor="description">Description:</label>
-                  <textarea name="description" id="description" value={appointment.description} onChange={handleDescriptionChange} />
+                  <div className={css.popoverInput}>
+                    <textarea name="description" id="description" value={appointment.description} onChange={handleDescriptionChange} />
+                  </div>
                 </div>
               </>)
               : appointment.description
@@ -220,11 +227,15 @@ const Appointment = ({children, date}) => {
          <div className={css.popoverContent}>         
           <div className={css.popoverInputRow}>
             <label htmlFor="title">Title:</label>
-            <input type="text" name="title" id="title" ref={titleRef} />
+            <div className={css.popoverInput}>
+              <input type="text" name="title" id="title" ref={titleRef} />
+            </div>
           </div>
           <div className={css.popoverInputRow}>
             <label htmlFor="description">Description:</label>
-            <textarea name="description" id="description" ref={descriptionRef} />
+            <div className={css.popoverInput}>
+              <textarea name="description" id="description" ref={descriptionRef} />
+            </div>
           </div>          
         </div>
         <div className={css.popoverActions}>

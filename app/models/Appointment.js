@@ -22,7 +22,7 @@ const Appointment = new Schema(
     },
   },
   {
-    strict: false,
+    strict: true,
   }
 );
 

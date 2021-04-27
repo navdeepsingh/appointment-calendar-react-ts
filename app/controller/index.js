@@ -34,7 +34,8 @@ const addAppointment = (req, res, next) => {
           res.status(200).send(appointment);
         })
         .catch((err) => {
-          res.status(401).send({ message: err });
+          console.log(err);
+          res.status(401).send({ message: err.message });
         });
     }
   });
