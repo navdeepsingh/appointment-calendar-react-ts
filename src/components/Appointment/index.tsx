@@ -2,15 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify';
 import Popover from 'react-popover'
-import cs from "classnames"
 import { IAppointment } from "@src/types/Appointment";
+import {API_APPOINTMENT, TEXTS} from '@src/constants'
 
 import css from "./Appointment.module.scss"
 import { fetchPromise } from "@src/utility";
 import {deleteAppointment, getAppointments, addAppointment} from '@src/redux/actions'
 
-const Appointment = ({children, date}) => {
-  const url = process.env.API_URL + 'appointment';
+const Appointment = ({children, date}) => {  
   const dispatch = useDispatch();
   
   const [status, setStatus] = useState({loading: false, error: null})
@@ -58,7 +57,7 @@ const Appointment = ({children, date}) => {
       date: date.format("YYYY-MM-DD")
     }
 
-    fetchPromise(url, {
+    fetchPromise(API_APPOINTMENT, {
       method: 'POST',
       body: JSON.stringify(data)
     })
@@ -68,7 +67,7 @@ const Appointment = ({children, date}) => {
       setAppointment(appointment)
       setPopoverOpen(false)
       setStatus({...status, loading: false})
-      toast.success('New Appointment Added.')
+      toast.success(TEXTS.APPOINTMENT_ADD_SUCCESS)
     }, 
     error => {
       console.log(error)
@@ -95,9 +94,8 @@ const Appointment = ({children, date}) => {
       title: appointment.title, 
       description: appointment.description
     }
-    console.log(data)
 
-    fetchPromise(url, {
+    fetchPromise(API_APPOINTMENT, {
       method: 'PUT',
       body: JSON.stringify(data)
     })
@@ -109,12 +107,12 @@ const Appointment = ({children, date}) => {
       });
       setPopoverOpen(false)
       setStatus({...status, loading: false})
-      toast.success('Appointment updated.')
+      toast.success(TEXTS.APPOINTMENT_UPDATE_SUCCESS)
     }, 
     error => {
       console.log(error)
       setStatus({...status, loading: false})
-      toast.error('Error in updating appointment.')
+      toast.error(TEXTS.APPOINTMENT_UPDATE_ERROR)
     });
   }
 
@@ -126,7 +124,7 @@ const Appointment = ({children, date}) => {
       _id: appointment._id
     }
 
-    fetchPromise(url, {
+    fetchPromise(API_APPOINTMENT, {
       method: 'DELETE',
       body: JSON.stringify(data)
     })
@@ -135,12 +133,12 @@ const Appointment = ({children, date}) => {
       setPopoverOpen(false)
       setAppointment(undefined)
       setStatus({...status, loading: false})
-      toast.success('Appointment deleted.')
+      toast.success(TEXTS.APPOINTMENT_DELETE_SUCCESS)
     }, 
     error => {
       console.log(error)
       setStatus({...status, loading: false})
-      toast.success('Error in deleting appointment.')
+      toast.success(TEXTS.APPOINTMENT_DELETE_ERROR)
     });
   }
   
@@ -196,7 +194,7 @@ const Appointment = ({children, date}) => {
              (
                <>
                 <button className={css.popoverCancel} onClick={handleCancelAppointment}>CANCEL</button>
-                <button className={css.popoverEdit} onClick={handleUpdateAppointment}>SUBMIT</button>
+                <button className={css.popoverEdit} onClick={handleUpdateAppointment} disabled={status.loading}>{!status.loading ? 'UPDATE': 'UPDATING...'}</button>
               </>                           
              )
              : (
@@ -231,7 +229,7 @@ const Appointment = ({children, date}) => {
         </div>
         <div className={css.popoverActions}>
           <button className={css.popoverCancel} onClick={handleCancelAppointment}>CANCEL</button>
-          <button className={css.popoverEdit} onClick={handleNewAppointment} disabled={status.loading}>SUBMIT</button>
+          <button className={css.popoverEdit} onClick={handleNewAppointment} disabled={status.loading}>{!status.loading ? 'SUBMIT': 'SUBMITING...'}</button>
         </div>
       </div>
       </form>

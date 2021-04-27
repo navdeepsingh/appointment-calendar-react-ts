@@ -13,6 +13,7 @@ const CalendarWeek = ({date, month}) => {
       number: date.date(),
       isCurrentMonth: date.month() === month.month(),
       isToday: date.isSame(new Date(), "day"),
+      isBefore: date.isBefore(new Date()),
       date: date
     };
     days.push(

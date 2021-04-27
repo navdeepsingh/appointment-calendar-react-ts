@@ -1,9 +1,10 @@
 import React from "react";
+import cs from "classnames"
 import css from "./Calendar.module.scss"
 
 const CalendarDayNames = () => {
   return (
-    <div className={[css.calendarRow, css.dayNames].join(' ')}>
+    <div className={cs(css.calendarRow, css.dayNames)}>
       <span className={css.day}>Sun</span>
       <span className={css.day}>Mon</span>
       <span className={css.day}>Tue</span>

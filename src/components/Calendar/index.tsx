@@ -8,51 +8,40 @@ import Chevron from '@components/Icons/Chevron'
 import {fetchPromise} from "@src/utility"
 import { v1 as uuidv1 } from 'uuid';
 import {setAppointments} from '@src/redux/actions'
+import {API_APPOINTMENTS, TEXTS} from '@src/constants'
 import css from "./Calendar.module.scss"
 
 const Calendar = () => {
   const dispatch = useDispatch();
-  const url = process.env.API_URL + 'appointments';
+
+  const [state, setState] = useState({month: moment()})  
 
   useEffect(() => {   
-    // fetch new data
-    fetchPromise(url)
+    // fetch new appointments on page load 
+    fetchPromise(API_APPOINTMENTS)
     .then(newData => {
-      console.log(newData);
       dispatch(setAppointments(newData))
-      const message = newData.length ? `${newData.length} Appointment(s) Loaded`: `No appointments yet. Make a new one by clicking on date.`
+      const message = newData.length ? `${newData.length} Appointment(s) Loaded`: TEXTS.APPOINTMENTS_LOADING_SUCCESS_NULL
       toast.success(message)      
     }, 
     error => {
       console.log(error)
-      toast.warn('Error in loading appointments!');
+      toast.warn(TEXTS.APPOINTMENTS_LOADING_ERROR);
     });
   }, []);
   
-
-  const [state, setState] = useState({
-    month: moment(),
-    selected: moment().startOf("day"),
-  })  
-
-  const onPrevious =  () => {
-    const { month } = state;
-    setState({
-      ...state,
-      month: month.subtract(1, "month")
-    })
+  const onPrevious = () => {
+    const {month} = state;
+    setState({...state, month: month.subtract(1, "month")})
   }
   
-  const onNext =  () => {
-    const { month } = state;
-    setState({
-      ...state,
-      month: month.add(1, "month")
-    })
+  const onNext = () => {
+    const {month} = state;
+    setState({...state, month: month.add(1, "month")})
   }
 
   const renderWeeks = () => {
-    const { month, selected } = state;
+    const {month} = state;
     let weeks = [];
     let done = false;
     let date = month
@@ -73,7 +62,7 @@ const Calendar = () => {
 
       date.add(1, "w");
 
-      done = count++ > 2 && monthIndex !== date.month();
+      done = count++ >= 3 && monthIndex !== date.month();
       monthIndex = date.month();
     }
 
@@ -81,7 +70,7 @@ const Calendar = () => {
   }
 
   const renderMonthLabel= () => {
-    const { month } = state;
+    const {month} = state;
     return <span className={css.monthLabel} data-testid="monthName">{month.format("MMMM YYYY")}</span>;
   }
 
