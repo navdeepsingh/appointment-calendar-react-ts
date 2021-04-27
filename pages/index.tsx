@@ -17,7 +17,7 @@ const Home = () => (
     </main>
 
     <footer>      
-      Developed by <a href="https://navdeepsingh.in">Navdeep Singh</a>
+      Developed by <a href="https://navdeepsingh.in" target="_blank">Navdeep Singh</a>
     </footer>
 
     <ToastContainer />

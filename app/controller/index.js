@@ -1,7 +1,7 @@
 const Appointment = require("../models/Appointment");
 
 const getApiStatus = (req, res, next) => {
-  return res.status(200).send("API Working");
+  return res.status(200).send({ message: "API Working" });
 };
 
 const getAppointments = (req, res, next) => {

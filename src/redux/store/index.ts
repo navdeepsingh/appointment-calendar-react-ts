@@ -9,7 +9,7 @@ const initialState = {
   appointments: [],
 };
 
-const reducer = (state = initialState, action) => {
+export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "SET_APPOINTMENTS": {
       const appointments = action.payload || [];

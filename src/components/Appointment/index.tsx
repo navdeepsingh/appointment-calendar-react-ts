@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux'
-import { toast } from 'react-toastify';
 import Popover from 'react-popover'
+import { toast } from 'react-toastify';
 import { IAppointment } from "@src/types/Appointment";
-import {API_APPOINTMENT, TEXTS} from '@src/constants'
+import { API_APPOINTMENT, TEXTS } from '@src/constants'
 
 import css from "./Appointment.module.scss"
 import { fetchPromise } from "@src/utility";
-import {deleteAppointment, getAppointments, addAppointment} from '@src/redux/actions'
+import { deleteAppointment, getAppointments, addAppointment } from '@src/redux/actions'
+import { NewAppointmentForm } from "./NewAppointmentForm";
 
 const Appointment = ({children, date}) => {  
   const dispatch = useDispatch();
@@ -216,35 +217,14 @@ const Appointment = ({children, date}) => {
         </div>      
       </div>           
     )
-    : (
-    <div className={css.popoverContainer}>
-      <form>
-      <div className={css.popoverSubcontainer}>
-        <span className={css.popoverHeading}>
-          <span className={css.appointmentText}>New Appointment</span>
-          <button onClick={onClosePopover}>X</button>
-        </span>
-         <div className={css.popoverContent}>         
-          <div className={css.popoverInputRow}>
-            <label htmlFor="title">Title:</label>
-            <div className={css.popoverInput}>
-              <input type="text" name="title" id="title" ref={titleRef} />
-            </div>
-          </div>
-          <div className={css.popoverInputRow}>
-            <label htmlFor="description">Description:</label>
-            <div className={css.popoverInput}>
-              <textarea name="description" id="description" ref={descriptionRef} />
-            </div>
-          </div>          
-        </div>
-        <div className={css.popoverActions}>
-          <button className={css.popoverCancel} onClick={handleCancelAppointment}>CANCEL</button>
-          <button className={css.popoverEdit} onClick={handleNewAppointment} disabled={status.loading}>{!status.loading ? 'SUBMIT': 'SUBMITING...'}</button>
-        </div>
-      </div>
-      </form>
-    </div>)
+    : <NewAppointmentForm
+        status={status}
+        titleRef={titleRef}
+        descriptionRef={descriptionRef}
+        onClosePopover={onClosePopover}
+        handleCancelAppointment={handleCancelAppointment}
+        handleNewAppointment={handleNewAppointment}
+     />
   }
     
   return (
