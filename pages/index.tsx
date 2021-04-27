@@ -17,7 +17,7 @@ const Home = () => (
     </main>
 
     <footer>      
-      Developed  <a href="https://navdeepsingh.in" target="_blank">Navdeep Singh</a>
+      Developed by <a href="https://navdeepsingh.in" target="_blank">Navdeep Singh</a>
     </footer>
 
     <ToastContainer />
@@ -42,10 +42,6 @@ const Home = () => (
         justify-content: center;
         align-items: center;
         background: #eee;
-      }
-
-      .content {
-        
       }
 
       main {

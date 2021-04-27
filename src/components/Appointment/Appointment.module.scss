@@ -46,12 +46,19 @@
       display: flex;
       padding: 0.3em 0;
 
+      @media screen and (max-width: 425px) {
+        flex-direction: column;
+      }
+
       .error {
         color: tomato;
       }
       
       label {
         flex-basis: 140px;
+        @media screen and (max-width: 425px) {
+          flex-basis: auto;
+        }
       }
 
       .popoverInput {
