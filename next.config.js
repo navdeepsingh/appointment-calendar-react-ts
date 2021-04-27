@@ -1,5 +1,4 @@
 module.exports = {
-  distDir: process.env.NODE_ENV === "production" ? `build` : ".next",
   env: {
     API_URL: process.env.API_URL,
   },
