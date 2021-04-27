@@ -86,6 +86,7 @@
           background-color: lighten(#1297df, 2%);          
         }
       }
+
       .popoverDelete {
         background-color: tomato;
         border: solid 2px tomato;        
@@ -95,6 +96,7 @@
           background-color: lighten(tomato, 2%);
         }
       }
+
       .popoverCancel {
         border: solid 2px white;        
         color: black;
@@ -102,6 +104,7 @@
     }
   }
 }
+
 .apppointmentDot {
   position: absolute;
   background-color: #D51236;
