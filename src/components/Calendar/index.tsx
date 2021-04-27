@@ -5,10 +5,11 @@ import moment from "moment";
 import CalendarDayNames from "./CalendarDayNames";
 import CalendarWeek from "./CalendarWeek";
 import Chevron from '@components/Icons/Chevron'
-import {fetchPromise} from "@src/utility"
+import { fetchPromise } from "@src/utility"
 import { v1 as uuidv1 } from 'uuid';
-import {setAppointments} from '@src/redux/actions'
-import {API_APPOINTMENTS, TEXTS} from '@src/constants'
+import { setAppointments } from '@src/redux/actions'
+import { API_APPOINTMENTS, TEXTS} from '@src/constants'
+import cs from "classnames"
 import css from "./Calendar.module.scss"
 
 const Calendar = () => {
@@ -77,7 +78,7 @@ const Calendar = () => {
   return (
     <div data-testid="calendar" className={css.calendar}>
       <header className={css.calendarHeader}>
-        <div className={[css.monthDisplay, css.calendarRow].join(' ')}>
+        <div className={cs(css.monthDisplay, css.calendarRow)}>
           <button onClick={onPrevious}>
             <Chevron />
           </button>            

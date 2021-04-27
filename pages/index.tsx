@@ -17,7 +17,7 @@ const Home = () => (
     </main>
 
     <footer>      
-      Developed by <a href="https://navdeepsingh.in" target="_blank">Navdeep Singh</a>
+      Developed  <a href="https://navdeepsingh.in" target="_blank">Navdeep Singh</a>
     </footer>
 
     <ToastContainer />
@@ -35,6 +35,7 @@ const Home = () => (
 
       .container {
         min-height: 100vh;
+        height: 100%:
         padding: 0 0.5rem;
         display: flex;
         flex-direction: column;
@@ -44,8 +45,7 @@ const Home = () => (
       }
 
       .content {
-        width: 500px;
-        height: 500px;        
+        
       }
 
       main {
