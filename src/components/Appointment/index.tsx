@@ -233,20 +233,20 @@ const Appointment = ({children, date}) => {
         </div>
       </div>
       </form>
-      </div>)
+    </div>)
   }
     
   return (
     <Popover
       isOpen={isPopoverOpen}
       preferPlace="above"
-      containerClassName="popover-container"
+      containerClassName={css.popoverContainer}
       body={renderPopover()}
       onOuterAction={onClosePopover}
     >
       <span onClick={onOpenPopover}>
         {children}
-        {appointment ? <span className={css.apppointmentDot}></span>: ''}
+        {appointment ? <span className={css.appointmentDate}></span>: ''}
       </span>
     </Popover>
   );

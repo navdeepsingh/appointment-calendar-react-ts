@@ -8,7 +8,6 @@
   src: local('HelveticaBold'), url(../../fonts/HelveticaBold.ttf) format('truetype');
 }
 
-
 .calendar {
   font-family: Helvetica;
   height: calc(100% - 55px);
@@ -20,6 +19,7 @@
   .week {
     flex: 1;
   }
+
   .day {
     position: relative;
     font-family: HelveticaBold;
@@ -31,16 +31,20 @@
     cursor: pointer;
     transition: all 0.2s;
   }
+
   .dayText {
     font-weight: 700;
     font-size: 15px;
   }
+
   .differentMonth {
     color: #CCCDD0;
   }
+
   .pastDay {
     color: #CCCDD0;
   }
+
   .today {
     .dayText {
       background-color: #ECEDF1;
@@ -53,27 +57,33 @@
     display: flex;
     width: 100%;
   }
+
   .calendarHeader {
     display: flex;
     align-items: center;
     flex-direction: column;
+
     .monthDisplay {
       justify-content: center;
       align-items: center;
       height: 80px;
+
       .monthLabel {
         font-family: inherit;
         text-align: center;
         flex: 1;
         font-size: 21px;
       }
+
       .arrow {
         cursor: pointer;
       }
     }
+
     .dayNames {
       cursor: default;
       font-size: 13px;
+      
       .day {
         display: flex;
         justify-content: center;
