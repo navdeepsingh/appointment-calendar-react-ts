@@ -1,11 +1,14 @@
 const Appointment = require("../models/Appointment");
+const moment = require("moment");
 
 const getApiStatus = (req, res, next) => {
   return res.status(200).send({ message: "API Working" });
 };
 
 const getAppointments = (req, res, next) => {
-  Appointment.find({})
+  Appointment.find({
+    date: { $gte: moment().format("YYYY-MM-DD[T00:00:00.000Z]") },
+  })
     .then((appointments) => {
       if (appointments !== null) {
         res.status(200).send(appointments);

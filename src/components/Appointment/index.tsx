@@ -55,7 +55,7 @@ const Appointment = ({children, date}) => {
     const data = { 
       title: titleRef.current.value, 
       description: descriptionRef.current.value,
-      date: date.format("YYYY-MM-DD")
+      date: date.format('YYYY-MM-DD[T00:00:00.000Z]')
     }
 
     fetchPromise(API_APPOINTMENT, {
